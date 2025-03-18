@@ -1,0 +1,49 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>kz.kolesa.branch-adder</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Kolesa Commit Prefixer</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor url="https://kolesa.kz" email="support@kolesa.kz" />
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+      This plugin constraints your commit message and watches that a name of your current branch contains it. <br/>
+      In addition the plugin adds a button to put a  branch name into a commit message. <br/> <br/>
+      Ограничивает commit сообщение и следит, чтобы в нем содержалось название текущей ветки.<br/>
+      Также добавляет кнопку для вставки названия текущей ветки в commit сообщение. <br/>
+    ]]></description>
+
+    <idea-version since-build="232.*" until-build="244.*"/>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.vcs</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <checkinHandlerFactory implementation="kz.kolesa.CommitMessageCheckinHandlerFactory"/>
+    </extensions>
+
+    <actions>
+        <action id="CommitMessageKolesa.Button"
+                class="kz.kolesa.KolesaCommitMessageAction"
+                text="Branch name"
+                description="Insert commit message with branch name"
+                icon="/icons/check.png">
+            <add-to-group group-id="Vcs.MessageActionGroup" anchor="first"/>
+        </action>
+    </actions>
+
+</idea-plugin>
