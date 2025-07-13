@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "kz.kolesa"
-version = "2.0"
+version = "2.6"
 
 repositories {
     mavenCentral()
@@ -29,8 +29,8 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("232")
-        untilBuild.set("243.*")
+        sinceBuild.set("221")
+        untilBuild.set("251.*")
     }
 
     signPlugin {

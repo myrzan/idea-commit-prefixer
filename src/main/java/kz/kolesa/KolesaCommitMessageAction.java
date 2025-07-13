@@ -49,11 +49,20 @@ public class KolesaCommitMessageAction extends AnAction implements DumbAware {
         }
 
         String branchName = getBranchName(e.getProject());
+        if (branchName == null || branchName.isEmpty()) {
+            return;
+        }
+
+        // Не трогаем стандартные ветки
+        if (branchName.equals("main") || branchName.equals("master") || branchName.equals("develop")) {
+            return;
+        }
+
         String currentMessage = checkinPanel.getCommitMessage();
 
-        // Проверяем, есть ли уже правильное название ветки в начале
-        if (currentMessage.startsWith(branchName + " ")) {
-            return; // Уже правильный коммит, ничего не делаем
+        // Если имя ветки уже встречается в сообщении (в любом месте), не делаем ничего
+        if (currentMessage.contains(branchName)) {
+            return;
         }
 
         // Заменяем старую ветку или добавляем новую
@@ -66,25 +75,14 @@ public class KolesaCommitMessageAction extends AnAction implements DumbAware {
     }
 
     /**
-     * Метод заменяет старую ветку на новую или добавляет её, если ветки не было.
+     * Метод добавляет имя ветки в начало сообщения, если его не было.
      */
     private String replaceExistingBranch(String commitMessage, String newBranch) {
         if (commitMessage == null || commitMessage.trim().isEmpty()) {
-            return newBranch + " "; // Если коммит пустой, просто вставляем новую ветку
+            return newBranch + " ";
         }
 
-        // Регулярка для поиска имени ветки в начале строки (например, "KL-123 ")
-        String branchPattern = "^[A-Z]+-\\d+\\s+";
-        Pattern pattern = Pattern.compile(branchPattern);
-        Matcher matcher = pattern.matcher(commitMessage);
-
-        if (matcher.find()) {
-            // Если в начале уже есть ветка, заменяем её на новую
-            return newBranch + " " + commitMessage.substring(matcher.end());
-        } else {
-            // Если ветки не было, добавляем в начало
-            return newBranch + " " + commitMessage;
-        }
+        return newBranch + " " + commitMessage;
     }
 
     @Nullable

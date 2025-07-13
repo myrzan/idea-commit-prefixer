@@ -8,7 +8,7 @@
     <name>Kolesa Commit Prefixer</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor url="https://kolesa.kz" email="support@kolesa.kz" />
+    <vendor url="https://kolesa.kz" email="support@kolesa.kz">Daulet Myrzan</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
@@ -20,7 +20,16 @@
       Также добавляет кнопку для вставки названия текущей ветки в commit сообщение. <br/>
     ]]></description>
 
-    <idea-version since-build="232.*" until-build="244.*"/>
+    <change-notes><![CDATA[
+        Improved branch name prepend logic:
+        <ul>
+            <li>Branch name is no longer added if it's already present in the commit message.</li>
+            <li>Standard branches like <code>main</code>, <code>master</code>, and <code>develop</code> are ignored.</li>
+            <li>Improved stability and eliminated branch name duplication.</li>
+        </ul>
+    ]]></change-notes>
+
+    <idea-version since-build="221.*" until-build="251.*"/>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
