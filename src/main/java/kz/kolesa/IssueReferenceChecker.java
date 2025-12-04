@@ -32,6 +32,7 @@ public class IssueReferenceChecker extends CheckinHandler {
                 return root;
             }
 
+            @SuppressWarnings("removal")
             @Override
             public void refresh() {
                 // Метод оставлен пустым, так как не требует обработки
