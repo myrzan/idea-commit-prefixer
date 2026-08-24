@@ -40,3 +40,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+### IntelliJ Platform Gradle Plugin ###
+.intellijPlatform/

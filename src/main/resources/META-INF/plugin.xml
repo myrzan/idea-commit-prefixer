@@ -1,47 +1,52 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<!-- https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <!-- Идентификатор плагина на Marketplace. Между версиями не меняется,
+         поэтому остаётся историческим kz.kolesa.branch-adder. -->
     <id>kz.kolesa.branch-adder</id>
 
-    <!-- Public plugin name should be written in Title Case.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>Kolesa Commit Prefixer</name>
 
-    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor url="https://kolesa.kz" email="support@kolesa.kz">Daulet Myrzan</vendor>
 
-    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-      This plugin constraints your commit message and watches that a name of your current branch contains it. <br/>
-      In addition the plugin adds a button to put a  branch name into a commit message. <br/> <br/>
-      Ограничивает commit сообщение и следит, чтобы в нем содержалось название текущей ветки.<br/>
-      Также добавляет кнопку для вставки названия текущей ветки в commit сообщение. <br/>
+      Adds the name of the current Git branch to the beginning of the commit message
+      and warns you before committing if the message does not reference it.
+      Standard branches (main, master, develop) are left alone.<br/>
+      Works in every IntelliJ Platform IDE: IntelliJ IDEA, PhpStorm, GoLand, PyCharm,
+      WebStorm, RubyMine, CLion, RustRover and Rider.<br/><br/>
+      Добавляет название текущей git-ветки в начало сообщения коммита и предупреждает
+      перед коммитом, если ссылки на неё в сообщении нет. Стандартные ветки
+      (main, master, develop) не трогает.<br/>
+      Работает во всех IDE на IntelliJ Platform: IntelliJ IDEA, PhpStorm, GoLand,
+      PyCharm, WebStorm, RubyMine, CLion, RustRover и Rider.
     ]]></description>
 
     <change-notes><![CDATA[
-        Improved branch name prepend logic:
+        <h4>3.0.0</h4>
         <ul>
-            <li>Branch name is no longer added if it's already present in the commit message.</li>
-            <li>Standard branches like <code>main</code>, <code>master</code>, and <code>develop</code> are ignored.</li>
-            <li>Improved stability and eliminated branch name duplication.</li>
+            <li>🧩 <b>Compatibility:</b> supports 2023.3 and every newer build, including
+                2026.2. The upper bound is gone, so the plugin no longer stops working
+                after an IDE update.</li>
+            <li>🖇 <b>Fixed:</b> the button now works in the non-modal commit tool window,
+                which is the default in all IDEs since 2020.3.</li>
+            <li>🌿 <b>Fixed:</b> the branch is read through the Git plugin API instead of
+                parsing <code>.git/HEAD</code> — worktrees, submodules and multi-root
+                projects are handled correctly, and detached HEAD no longer produces
+                garbage prefixes.</li>
+            <li>🔕 <b>Fixed:</b> no more "Missing Issue Reference" dialog on main, master
+                and develop — the button does not prefix those branches either.</li>
         </ul>
     ]]></change-notes>
 
-    <idea-version since-build="221.*" until-build="251.*"/>
+    <!-- since/until-build проставляет Gradle из pluginSinceBuild в gradle.properties. -->
 
-    <!-- Product and plugin compatibility requirements.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.vcs</depends>
-
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
-
+    <!-- Git4Idea входит в поставку IDEA, PhpStorm, GoLand, PyCharm, WebStorm,
+         RubyMine, CLion, RustRover и Rider, поэтому список IDE не сужается. -->
+    <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
         <checkinHandlerFactory implementation="kz.kolesa.CommitMessageCheckinHandlerFactory"/>
     </extensions>
 
@@ -50,7 +55,7 @@
                 class="kz.kolesa.KolesaCommitMessageAction"
                 text="Branch name"
                 description="Insert commit message with branch name"
-                icon="/icons/check.png">
+                icon="/icons/check.svg">
             <add-to-group group-id="Vcs.MessageActionGroup" anchor="first"/>
         </action>
     </actions>

@@ -9,7 +9,8 @@ import org.jetbrains.annotations.NotNull;
 public class CommitMessageCheckinHandlerFactory extends CheckinHandlerFactory {
 
     @Override
-    public @NotNull CheckinHandler createHandler(@NotNull CheckinProjectPanel panel, @NotNull CommitContext commitContext) {
+    public @NotNull CheckinHandler createHandler(@NotNull CheckinProjectPanel panel,
+                                                 @NotNull CommitContext commitContext) {
         return new IssueReferenceChecker(panel);
     }
 }
