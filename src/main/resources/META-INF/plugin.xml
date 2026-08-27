@@ -22,6 +22,20 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <h4>3.1.0</h4>
+        <ul>
+            <li>♻️ <b>Improved:</b> the button no longer stacks prefixes. If the message
+                already starts with an issue key left over from another branch
+                (<code>KL-100 fix search</code>), that key is replaced by the current
+                branch instead of a second prefix being prepended.</li>
+            <li>✅ <b>Improved:</b> if the leading key already points at the current
+                branch's issue, the message is left untouched — including when the branch
+                is <code>feature/KL-123-fix</code> and the message says just
+                <code>KL-123</code>.</li>
+            <li>🔕 <b>Fixed:</b> the pre-commit check accepts the branch's issue key on its
+                own, so it stops asking about messages the button considers correct.</li>
+        </ul>
+
         <h4>3.0.0</h4>
         <ul>
             <li>🧩 <b>Compatibility:</b> supports 2023.3 and every newer build, including
